@@ -212,8 +212,7 @@ pp = PrettyPrinter(indent=4)
 def gif_search():
     """Show a form to search for GIFs and show resulting GIFs from Tenor API."""
     if request.method == 'POST':
-        # TODO: Get the search query & number of GIFs requested by the user, store each as a 
-        # variable
+
         search_query = request.form.get('search_query')
         quantity = request.form.get('quantity')
 
@@ -235,11 +234,6 @@ def gif_search():
             'gifs': gifs # Pass the list of GIFs to the template 
         }
 
-         # Uncomment me to see the result JSON!
-        # Look closely at the response! It's a list
-        # list of data. The media property contains a 
-        # list of media objects. Get the gif and use it's 
-        # url in your template to display the gif. 
 
         return render_template('gif_search.html', **context)
     else:
