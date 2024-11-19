@@ -143,36 +143,38 @@ def apply_filter(file_path, filter_name):
 @app.route('/image_filter', methods=['GET', 'POST'])
 def image_filter():
     """Filter an image uploaded by the user, using the Pillow library."""
+    # Passed to tamplate rendering dropdown menu
     filter_types = filter_types_dict.keys()
 
     if request.method == 'POST':
         
-        # TODO: Get the user's chosen filter type (whichever one they chose in the form) and save
-        # as a variable
-        # HINT: remember that we're working with a POST route here so which requests function would you use?
-        filter_type = ''
+        # Get the user's chosen filter type 
+        filter_type = request.form.get('filter_type')
         
         # Get the image file submitted by the user
         image = request.files.get('users_image')
 
-        # TODO: call `save_image()` on the image & the user's chosen filter type, save the returned
-        # value as the new file path
+        if image and filter_type:
+            # Sve the uploaded image
+            file_path = save_image(image, filter_type)
 
-        # TODO: Call `apply_filter()` on the file path & filter type
+            # Apply the chosen filter
+            apply_filter(file_path, filter_type)
 
-        image_url = f'./static/images/{image.filename}'
+            # Generate the image URL for display
+            image_url = f'./static/images/{image.filename}'
 
+        # Pass context to the template
         context = {
-            # TODO: Add context variables here for:
-            # - The full list of filter types
-            # - The image URL
+            'filter_type': filter_type, # Full list of filter types
+            'image_url': image_url # the image URL
         }
 
         return render_template('image_filter.html', **context)
 
     else: # if it's a GET request
         context = {
-            # TODO: Add context variable here for the full list of filter types
+            'filter_types': filter_types
         }
         return render_template('image_filter.html', **context)
 
