@@ -12,11 +12,10 @@ Animal Facts
 
         <label>
             Which animal do you want facts on?
-
-            <!-- TODO: Use a for loop to show one option element for each 
-                animal. -->
             <select name="animal">
-                <option value="koala">koala</option>
+                {% for animal in animals %}
+                <option value="{{ animal }}">{{ animal }}</option>
+                {% endfor %}
             </select>
         </label>
 
@@ -24,16 +23,19 @@ Animal Facts
     </fieldset>
 </form>
 
-<!-- TODO: If an animal was chosen, show the section below with the appropriate 
+<!--  If an animal was chosen, show the section below with the appropriate 
     animal fact. -->
 
+{% if chosen_fact %}
 <section id="form_results">
     <p>
         Here is your animal fact:
     </p>
     <p>
-        <em>Your animal fact goes here.</em>
+        <em>{{ chosen_fact }}</em>
     </p>
 </section>
+{% endif %}
+
 
 {% endblock %}
